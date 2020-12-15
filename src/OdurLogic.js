@@ -119,17 +119,18 @@ export default class OdurLogic {
   build(){
     this.audioPlayer.play(this.bars, this.cfg.bl, this.effects, this.instruments)
     this.audioPlayer.stop()
-    this._uiCallback.expertingToMP3()
+    this._uiCallback.exportingToMP3()
     const mp3Data = [];
     const mp3encoder = new lamejs.Mp3Encoder(1, this.audioPlayer.ctx.sampleRate, 128)
     
+    const channel = this.audioPlayer.channel
     const supportChannel = new Int16Array(channel.length);
     var multipler = Math.pow(2,15);
     for(var i = 0;i < channel.length;i++){
       supportChannel[i] = (channel[i]) * multipler;
     };
     const samples = supportChannel; //one second of silence (get your data from the source you have)
-    sampleBlockSize = 1152; //can be anything but make it a multiple of 576 to make encoders life easier
+    const sampleBlockSize = 1152; //can be anything but make it a multiple of 576 to make encoders life easier
     while(mp3Data.length == 0){
       var mp3buf = mp3encoder.encodeBuffer(new Int16Array(1152));
       if (mp3buf.length > 0) {
@@ -137,7 +138,7 @@ export default class OdurLogic {
       }
     };
     for (var i = 0; i < samples.length; i += sampleBlockSize) {
-      sampleChunk = samples.subarray(i, i + sampleBlockSize);
+      const sampleChunk = samples.subarray(i, i + sampleBlockSize);
       var mp3buf = mp3encoder.encodeBuffer(sampleChunk);
       if (mp3buf.length > 0) {
         mp3Data.push(mp3buf);

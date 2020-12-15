@@ -57,7 +57,7 @@ export default class AudioPlayer {
       length += barLength * 60/ bars2play[i].tempo;
     };
     var buffer = this.ctx.createBuffer(1, this.ctx.sampleRate * length, this.ctx.sampleRate);
-    let channel = buffer.getChannelData(0);
+    this.channel = buffer.getChannelData(0);
     var timeStamp = 0;
     for(var i = 0;i < bars2play.length;i++){
       var bar = bars2play[i];
@@ -78,8 +78,8 @@ export default class AudioPlayer {
           for(var k = 0;k < noteLength;k++){ //robi kwadracik
             var change = this.osc[instruments[note.instrument || 0].type || "square"](k,cycle,chalf,0.2 * note.volume * (vc.type !== "silence" ? ((this.osc[vc.type](k + vc.offset * beatLength,vc.cycle * beatLength,vc.cycle * beatLength / 2,(vc.end - vc.start) / 2) + (vc.start + vc.end) / 2 )) : 1));
             var pos = Math.round(startTime + k);
-            if(Math.abs(channel[pos] + change) <= 1)
-            channel[pos] += change;
+            if(Math.abs(this.channel[pos] + change) <= 1)
+            this.channel[pos] += change;
             if(ec.enabled){
               var ecycle = ec.cycle * beatLength;
               var multipler = ec.multipler || 1;
@@ -88,8 +88,8 @@ export default class AudioPlayer {
                   var l = l + 1;
                   var pos1 = pos + ecycle * l;
                   var c = change * multipler;
-                  if(Math.abs(channel[pos1] + c) <= 1)
-                    channel[pos1] += c;
+                  if(Math.abs(this.channel[pos1] + c) <= 1)
+                  this.channel[pos1] += c;
                   multipler *= ec.multipler;
                 };
               }else{
@@ -98,8 +98,8 @@ export default class AudioPlayer {
                   var pos = pos + ecycle * l - l * eb;
                   var c = (change * multipler) / (l * 2);
                   for(var m = 0;m <= l;m++){
-                    if(Math.abs(channel[pos] + c) <= 1)
-                      channel[pos] += c;
+                    if(Math.abs(this.channel[pos] + c) <= 1)
+                    this.channel[pos] += c;
                     pos += eb;
                   };
                   multipler *= multipler;
@@ -111,9 +111,9 @@ export default class AudioPlayer {
       };
       timeStamp += barLength * 60 / bar.tempo;
     };
-    for(var i = channel.length - 1;i > 0;i--){ //skraca ciszę
-      if(channel[i] && (Math.abs(channel[i]) > 0.00001)){
-        channel = channel.subarray(0,i);
+    for(var i = this.channel.length - 1;i > 0;i--){ //skraca ciszę
+      if(this.channel[i] && (Math.abs(this.channel[i]) > 0.00001)){
+        this.channel = this.channel.subarray(0,i);
         break;
       };
     };

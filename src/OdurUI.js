@@ -51,11 +51,11 @@ export default class OdurUI {
   bindListeners() {
     this.canvasRenderer.bindListeners()
     document.getElementById("load").oninput = this._logic.load
-    document.body.onkeydown = function(evt){
-      this.pressed[evt.key] = true;
+    document.body.onkeydown = (evt) => {
+      this.pressed[evt.key] = true
     }
-    document.body.onkeyup = function(evt){
-      this.pressed[evt.key] = false;
+    document.body.onkeyup = (evt) => {
+      this.pressed[evt.key] = false
     }
 
     document.getElementById('play-button').addEventListener('click', () => this._logic.play())
