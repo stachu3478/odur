@@ -1,0 +1,126 @@
+<html>
+<head>
+<title>
+o'major
+</title>
+<meta charset="UTF-8">
+<link rel=stylesheet href="style.css">
+</head>
+<body>
+	<div id=container1 style="width: 150px;float: left">
+		<button class="tab-button" name="bars">Bars</button>
+		<button class="tab-button" name="instruments">Soundfonts</button>
+		<button class="tab-button" name="settings">Settings</button>
+		<button class="tab-button" name="effects">Effects</button>
+		<div class="tab" name="bars" id="bars" hidden>
+	
+		</div>
+		<div class="tab" name="instruments" id="instruments">
+	
+		</div>
+		<div class="tab" name="effects" id=effects hidden>
+	
+		</div>
+		<div class="tab" name="settings" id=settings hidden>
+			Bar size: <input type=text id=barLength value=32><br>
+		</div>
+	</div>
+	<canvas id=c width=980 height=600></canvas>
+	<nav id=nav>
+		<button onclick="scrollY += 100;renderC()">Up</button><br>
+		<button onclick="if(scrollY > 0)scrollY -= 100;renderC()">Down</button><br>
+		<button onclick="scrollY = 0;renderC()">Start</button><br>
+		<button onclick="scrollY = ((bars.length * 32) - 20) * 10;renderC()">End</button><br>
+	</nav>
+	<div style="text-align: right;float: right">
+		Note length: <div id=nl>1</div><input id=noteLength type=range min=1 max=32 value=1 oninput="nl.innerText=in1.value"><button id=aNL>Apply to font</button><br>
+		Note volume: <div id=nv>100</div><input id=noteVolume type=range min=1 max=100 value=100 oninput="nv.innerText=in2.value"><button id=aNV>Apply to font</button><br>
+		Volume curve: <br>
+		Type (disabled if silence): <select id=vCurveType>
+		
+		</select><br>
+		Attlitude start: <input id=vCurveStart type=number value=-1><br>
+		Attlitude end: <input id=vCurveEnd type=number value=1><br>
+		Curve offset (beats): <input id=vCurveOffset type=number value=0><br>
+		Cycle time (beats): <input id=vCurveCycle type=number value=32><br>
+		<button id=aVC>Apply to font</button>
+	</div>
+	<div id=menu>
+		<button id="play-button">Play</button>
+		<button id="play-current-bar-button">Play current bar</button><br>
+		<button id="stop-button">Stop</button><br>
+		<button id="build-button" onclick="build()">Build</button><br>
+		<button id="save-button" onclick="save()">Save</button><br>
+		Save as: <input id="songName" type=text value=song><br>
+		Load: <input id=load type=file>
+		<div id=urlOut></div>
+	</div>
+	<div id=strOut>Loading...</div><br>
+	<div id=soundFonts>
+
+	</div>
+	<script>
+		var nl = document.getElementById("nl");
+		var nv = document.getElementById("nv");
+		//var sel = document.getElementById("sel");
+		//sel.oninput = function(evt){console.log(evt)};
+		
+		document.getElementById("barLength").oninput = function(evt){
+			var newVal = parseInt(evt.target.value);
+			if(newVal > 0 && newVal !== cfg.bl ){
+				rebuildNotes(cfg.bl,newVal);
+				cfg.bl = parseInt(evt.target.value) || 32;
+			}
+		};
+		document.getElementById("aNL").onclick = function(){
+			var val = parseInt(document.querySelector("input[name=ins]:checked").value || 0);
+			var tar = parseInt(document.getElementById("noteLength").value);
+			for(var i = 0;i < bars.length;i++){
+				var bn = bars[i].notes;
+				for(var j = 0;j < bn.length;j++){
+					var note = bn[j];
+					if(note && (note.instrument == val)){
+						note.length = tar;
+					}
+				}
+			}
+		};
+		document.getElementById("aNV").onclick = function(){
+			var val = parseInt(document.querySelector("input[name=ins]:checked").value || 0);
+			var tar = parseInt(document.getElementById("noteVolume").value);
+			for(var i = 0;i < bars.length;i++){
+				var bn = bars[i].notes;
+				for(var j = 0;j < bn.length;j++){
+					var note = bn[j];
+					if(note && (note.instrument == val)){
+						note.volume = tar;
+					}
+				}
+			}
+		};
+		document.getElementById("aVC").onclick = function(){
+			var val = parseInt(document.querySelector("input[name=ins]:checked").value || 0);
+			var tar1 = document.getElementById("vCurveType").value;
+			var tar2 = parseInt(document.getElementById("vCurveStart").value);
+			var tar3 = parseInt(document.getElementById("vCurveEnd").value);
+			var tar4 = parseInt(document.getElementById("vCurveOffset").value);
+			var tar5 = parseInt(document.getElementById("vCurveCycle").value);
+			for(var i = 0;i < bars.length;i++){
+				var bn = bars[i].notes;
+				for(var j = 0;j < bn.length;j++){
+					var note = bn[j];
+					if(note && (note.instrument == val)){
+						note.vCurve = {type: tar1,
+						start: tar2,
+						end: tar3,
+						offset: tar4,
+						cycle: tar5,
+						};
+					}
+				}
+			}
+		};
+	</script>
+	<script src="main.js" type="text/javascript"></script>
+</body>
+</html>
