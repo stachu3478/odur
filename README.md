@@ -12,6 +12,10 @@ My first try in Web DAW
 
 - Run `npm start`
 
+### Linting
+
+- Run `npm run lint`
+
 ### Tests
 
 - Run `npm test`

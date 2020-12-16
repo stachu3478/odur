@@ -27,14 +27,19 @@ o'major
 	</div>
 	<canvas id=c width=980 height=600></canvas>
 	<nav id=nav>
-		<button onclick="scrollY += 100;renderC()">Up</button><br>
-		<button onclick="if(scrollY > 0)scrollY -= 100;renderC()">Down</button><br>
-		<button onclick="scrollY = 0;renderC()">Start</button><br>
-		<button onclick="scrollY = ((bars.length * 32) - 20) * 10;renderC()">End</button><br>
+		<button id="scroll-up">Up</button><br>
+		<button id="scroll-down">Down</button><br>
+		<button id="scroll-to-start">Start</button><br>
+		<button id="scroll-to-end">End</button><br>
 	</nav>
 	<div style="text-align: right;float: right">
-		Note length: <div id=nl>1</div><input id=noteLength type=range min=1 max=32 value=1 oninput="nl.innerText=in1.value"><button id=aNL>Apply to font</button><br>
-		Note volume: <div id=nv>100</div><input id=noteVolume type=range min=1 max=100 value=100 oninput="nv.innerText=in2.value"><button id=aNV>Apply to font</button><br>
+		Note length: <div class="indicator" name="note-length">1</div>
+		<input class="indicator-input" name="note-length" type=range min=1 max=32 value=1>
+		<button id=aNL>Apply to font</button><br>
+
+		Note volume: <div class="indicator" name="note-volume">100</div>
+		<input class="indicator-input" name="note-volume" type=range min=1 max=100 value=100>
+		<button id=aNV>Apply to font</button><br>
 		Volume curve: <br>
 		Type (disabled if silence): <select id=vCurveType>
 		
@@ -46,11 +51,19 @@ o'major
 		<button id=aVC>Apply to font</button>
 	</div>
 	<div id=menu>
-		<button id="play-button">Play</button>
-		<button id="play-current-bar-button">Play current bar</button><br>
-		<button id="stop-button">Stop</button><br>
-		<button id="build-button">Build</button><br>
-		<button id="save-button">Save</button><br>
+		<button id="play-button" title="Play">&#9654;</button>
+		<button id="play-current-bar-button" title="Play current bar">|&#9654;</button>
+		<button id="stop-button" title="Stop">&#128306;</button><br>
+		<button id="save-button" title="Coming soon" disabled>Save</button><br>
+		<button id="load-button" title="Coming soon" disabled>Load</button><br>
+		<button id="download-button" title="Download your project state to local device">Download project</button><br>
+		<button id="upload-button" title="Please choose file to load the project back" disabled>Upload project</button><br>
+		<button id="mp3-convert-button" title="Exports entire song to a mp3 file">Convert to .mp3</button><br>
+		<button id="perios-convert-button" title="Used for Peripheral Assassin's bot. If you want to use this bot like that, please ask me for instructions">Convert to PeriOS</button><br>
+		<button id="piezo-convert-button" title="Used in one of my private projects, please remove if you clone that code">Convert to piezo</button><br>
+		<div id="container2">
+			<div class="tab" name="convert-to-mp3"></div>
+		</div>
 		Save as: <input id="songName" type=text value=song><br>
 		Load: <input id=load type=file>
 		<div id=urlOut></div>
@@ -121,6 +134,5 @@ o'major
 			}
 		};
 	</script>
-	<script src="main.js" type="text/javascript"></script>
 </body>
 </html>
