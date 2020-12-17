@@ -32,7 +32,7 @@ export default class OdurUICallback {
   }
 
   downloadData(data, type, extension) {
-    const blob = new Blob(data, {type})
+    const blob = new Blob([data], {type})
     this.downloadBlob(blob, `${document.getElementById('songName').value}${extension}`)
   }
 

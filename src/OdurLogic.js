@@ -53,12 +53,12 @@ export default class OdurLogic {
 
   downloadPiezo() {
     const code = this.converterManager.convertToPiezo(this.bars)
-    this._uiCallback.downloadData(code, 'text/binary', 'bin')
+    this._uiCallback.downloadData(code, 'text/plain', '.bin')
   }
 
   downloadPerios() {
     const code = this.converterManager.convertToPerios(this.bars)
-    this._uiCallback.downloadData(code, 'application/javascript', 'js')
+    this._uiCallback.downloadData(code, 'application/javascript', '.js')
   }
 
   createNote(keyId, time) {

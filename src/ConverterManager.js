@@ -15,13 +15,15 @@ export default class ConverterManager {
   }
 
   convertToPiezo (bars) {
-    return new PiezoConverter().convert(this._sortNotes(bars), bars[0].tempo)
+    const sortedNotes = this._sortNotes(bars)
+    console.log(sortedNotes)
+    return new PiezoConverter().convert(sortedNotes, bars[0].tempo)
   }
 
   _sortNotes(bars) {
     const notes = []
-    bars.forEach((bar) => {
-      bar.notes.forEach((note, i) => {
+    bars.forEach((bar, i) => {
+      bar.notes.forEach((note) => {
         if(note) notes.push(new Note(note.pitch,note.time + i * 32,note.length,note.volume * 100,note.instrument,note.vCurve))
       })
     })

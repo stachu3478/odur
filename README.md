@@ -23,3 +23,4 @@ My first try in Web DAW
 ## Build
 
 - Run `npm run build`
+- `dist` directory will contain the bundled frontend
