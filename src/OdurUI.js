@@ -99,6 +99,11 @@ export default class OdurUI {
     document.getElementById('scroll-to-start').addEventListener('click', () => this.canvasRenderer.scrollY = 0)
     document.getElementById('scroll-to-end').addEventListener('click', () => this.canvasRenderer.scrollY = ((this._logic.bars.length * 32) - 20) * 10)
 
+    document.getElementById('barLength').addEventListener('input', (evt) => this._logic.barLength = parseInt(evt.target.value))
+    document.getElementById('aNL').addEventListener('click', () => this._logic.applyCurrentNoteLengthToFont())
+    document.getElementById('aNV').addEventListener('click', () => this._logic.applyCurrentNoteVolumeToFont())
+    document.getElementById('aVC').addEventListener('click', () => this._logic.applyCurrentNoteVolumeCurveToFont())
+
     this.tabsHandler.bindListeners()
   }
 

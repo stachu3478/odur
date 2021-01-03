@@ -51,6 +51,13 @@ export default class OdurLogic {
     return this._uiCallback.instrument
   }
 
+  set barLength(v) {
+    if(v > 0 && v !== this.cfg.bl ) {
+      this._rebuildNotes(this.cfg.bl, v)
+      this.cfg.bl = v
+    }
+  }
+
   downloadPiezo() {
     const code = this.converterManager.convertToPiezo(this.bars)
     this._uiCallback.downloadData(code, 'text/plain', '.bin')
@@ -144,9 +151,45 @@ export default class OdurLogic {
     const bar = this.bars[barId]
     if(bar)for(let i = 0;i < bar.notes.length;i++){
       let note = bar.notes[i]
-      if(note && (note.pitch == pitch) && (note.time == time))return {i: i,l: note.length}
+      if(note && (note.pitch == pitch) && (note.time === time))return {i: i,l: note.length}
     }
     return false
+  }
+
+  applyCurrentNoteLengthToFont() {
+    const instrument = this.instrument
+    const noteLength = this.noteLength
+    this.bars.forEach(bar => {
+      bar.notes.forEach(note => {
+        if(note && (note.instrument === instrument)){
+          note.length = noteLength
+        }
+      })
+    })
+  }
+
+  applyCurrentNoteVolumeToFont() {
+    const instrument = this.instrument
+    const noteVolume = this.noteVolume
+    this.bars.forEach(bar => {
+      bar.notes.forEach(note => {
+        if(note && (note.instrument === instrument)){
+          note.volume = noteVolume
+        }
+      })
+    })
+  }
+
+  applyCurrentVolumeCurveToFont() {
+    const instrument = this.instrument
+    const noteVolumeCurve = this._uiCallback.volumeCurve
+    this.bars.forEach(bar => {
+      bar.notes.forEach(note => {
+        if(note && (note.instrument === instrument)){
+          note.vCurve = noteVolumeCurve
+        }
+      })
+    })
   }
 
   _rebuildNotes(l1,l2){
