@@ -11,6 +11,7 @@ My first try in Web DAW
 ### Webpack dev server
 
 - Run `npm start`
+- Note that the server will run in development mode as defined in webpack config
 
 ### Linting
 
@@ -24,3 +25,4 @@ My first try in Web DAW
 
 - Run `npm run build`
 - `dist` directory will contain the bundled frontend
+- Note that the frontend will be build in production mode as defined in webpack arguments
