@@ -2,6 +2,13 @@
 
 My first try in Web DAW
 
+## Suggested requirements to develop:
+
+- `npm -v`
+- `>>> 6.14.10`
+- `node -v`
+- `>>> 10.15.0`
+
 ## Setup
 
 - Run `npm install`
