@@ -10,7 +10,7 @@ export default class Repository {
   }
 
   save(data) {
-    this._uiCallback.downloadData(data, 'text/JSON')
+    this._uiCallback.downloadJson(data)
   }
 
   load(file, callback) {
@@ -23,7 +23,7 @@ export default class Repository {
         loadedData.instruments = data.instruments
         let v = data.version && parseFloat(data.version) || 0
         if(v > 0){
-          this.cfg.bl = data.cfg.bl
+          loadedData.barLength = data.cfg.bl
           if(v > 0.125){
             loadedData.effects = data.effects
           }else{

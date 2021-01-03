@@ -1,11 +1,11 @@
 export default class OdurUICallback {
-  constructor (out2, out3, barsDiv, insDiv, tabsHandler, renderCanvas, in1, in2, pressed) {
+  constructor (out2, out3, barsDiv, insDiv, tabsHandler, canvasRenderer, in1, in2, pressed) {
     this.out2 = out2
     this.out3 = out3
     this.barsDiv = barsDiv
     this.insDiv = insDiv
     this.tabsHandler = tabsHandler
-    this.renderCanvas = renderCanvas
+    this.canvasRenderer = canvasRenderer
     this.in1 = in1
     this.in2 = in2
     this.pressed = pressed || {}
@@ -54,7 +54,7 @@ export default class OdurUICallback {
 
   songLoaded(title) {
     document.getElementById('songName').value = title.slice(0, title.length - 5)
-    this.renderCanvas()
+    this.canvasRenderer.render()
     this.barsDiv.hidden = true
     this.insDiv.hidden = false
     this.refreshBars()

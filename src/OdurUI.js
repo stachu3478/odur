@@ -45,7 +45,7 @@ export default class OdurUI {
     this.settingsTab = new SettingsTab(document.getElementById('settings'))
     this.tabsHandler.addTab(this.settingsTab)
 
-    this.callback = new OdurUICallback(this.out2, this.out3, this.barsDiv, this.insDiv, this.tabsHandler, this.canvasRenderer.render, this.in1, this.in2, this.insEl, this.pressed)
+    this.callback = new OdurUICallback(this.out2, this.out3, this.barsDiv, this.insDiv, this.tabsHandler, this.canvasRenderer, this.in1, this.in2, this.insEl, this.pressed)
     this.canvasRenderer.uiCallback = this.callback
   }
 
@@ -72,7 +72,7 @@ export default class OdurUI {
 
   bindListeners() {
     this.canvasRenderer.bindListeners()
-    document.getElementById('load').oninput = this._logic.load
+    
     document.body.onkeydown = (evt) => {
       this.pressed[evt.key] = true
     }
@@ -85,6 +85,7 @@ export default class OdurUI {
     document.getElementById('stop-button').addEventListener('click', () => this._logic.stop())
     document.getElementById('mp3-convert-button').addEventListener('click', () => this._logic.build())
     document.getElementById('download-button').addEventListener('click', () => this._logic.save())
+    document.getElementById('load').addEventListener('input', (evt) => this._logic.load(evt))
     document.getElementById('perios-convert-button').addEventListener('click', () => this._logic.downloadPerios())
     document.getElementById('piezo-convert-button').addEventListener('click', () => this._logic.downloadPiezo())
 

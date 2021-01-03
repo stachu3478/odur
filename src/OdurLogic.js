@@ -58,6 +58,10 @@ export default class OdurLogic {
     }
   }
 
+  get lastBar() {
+    return this.bars[this.bars.length - 1]
+  }
+
   downloadPiezo() {
     const code = this.converterManager.convertToPiezo(this.bars)
     this._uiCallback.downloadData(code, 'text/plain', '.bin')
@@ -72,7 +76,7 @@ export default class OdurLogic {
     const barLength = this.cfg.bl
     const barId = Math.floor(time / barLength)
     if(!this.bars[barId]){
-      this.bars.push(new Bar(this.bars[this.bars.length - 1].tempo))
+      this.bars.push(new Bar(this.lastBar.tempo))
       this._uiCallback.refreshBars()
     }
     this.bars[barId].notes.push(new Note(keyId, time % barLength, this.noteLength, this.noteVolume, this.instrument, this._uiCallback.volumeCurve))
@@ -132,6 +136,7 @@ export default class OdurLogic {
         this.instruments.push(...loadedData.instruments)
         this.effects.splice(0)
         this.effects.push(...loadedData.effects)
+        this.cfg.bl = loadedData.barLength
         this._uiCallback.songLoaded(file.name)
       })
     } else {
@@ -207,7 +212,9 @@ export default class OdurLogic {
         const n = noteArray[i]
         let barId = Math.floor(n.time / l2)
         if(barId < 10000){
-          while(!this.bars[i][barId])this.bars[i].push(new Bar(this.bars[i][this.bars[i].length - 1].tempo))
+          while(!this.bars[barId]) {
+            this.bars.push(new Bar(this.lastBar.tempo))
+          }
           this.bars[barId].notes.push(new Note(n.pitch,n.time % l2,n.length,n.volume * 100,n.instrument,n.vCurve))
         }
       }
