@@ -23,7 +23,7 @@ export default class PiezoConverter {
     const toneArray = new Array(highestTime).fill(0).map(() => [])
     sortedNotes.forEach(note => {
       for (let time = note.time; time < note.time + note.length; time++) {
-        if (toneArray[time].length < 2) toneArray[time].push(note.pitch - 36)
+        if (toneArray[time].length < 2) toneArray[time].push(note.pitch - 36 + note.time / (highestTime * 3))
       }
     })
     

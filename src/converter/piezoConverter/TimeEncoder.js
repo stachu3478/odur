@@ -34,7 +34,7 @@ export default class TimeEncoder {
 
   _flush(tones, time, simultaneusNotes = 2) {
     if (time > 0) {
-      const toneString = new Array(simultaneusNotes).fill(0).map((_, i) => this.encoder.int5(this._currentTones[i] || 0)).join('')
+      const toneString = new Array(simultaneusNotes).fill(0).map((_, i) => this.encoder.int5(Math.round(this._currentTones[i]) || 0)).join('')
       this._tuneString += toneString + this.encoder.int5(time)
     }
     this._currentToneTime = 0

@@ -25,6 +25,15 @@ describe('TimeEncoder', () => {
       expect(encoder.code).toEqual(returnValue + Encoder.int5(14) + Encoder.int5(17) + Encoder.int5(2))
     })
 
+    it ('adds notes when float values changed', () => {
+      const returnValue = 'some random length'
+      const encoder = new TimeEncoder({ int11: () => returnValue, int5: Encoder.int5 })
+      encoder.encode([14.25, 17])
+      encoder.encode([14.125, 17])
+      encoder.encode([53])
+      expect(encoder.code).toEqual(returnValue + Encoder.int5(14) + Encoder.int5(17) + Encoder.int5(1) + Encoder.int5(14) + Encoder.int5(17) + Encoder.int5(1))
+    })
+
     it ('adds notes when flushed', () => {
       const returnValue = 'some random length'
       const encoder = new TimeEncoder({ int11: () => returnValue, int5: Encoder.int5 })
