@@ -7,7 +7,7 @@ import Repository from './Repository'
 import ConverterManager from './ConverterManager'
 
 export default class OdurLogic {
-  constructor () {
+  constructor (audioPlayer = new AudioPlayer()) {
     this.bars = []
     this.instruments = []
     this.effects = []
@@ -15,7 +15,7 @@ export default class OdurLogic {
       //config
       bl: 32, //bar length
     }
-    this.audioPlayer = new AudioPlayer()
+    this.audioPlayer = audioPlayer
     this.repository = new Repository()
 
     this.bars.push(new Bar())
@@ -93,7 +93,7 @@ export default class OdurLogic {
   }
 
   playCurrentBar() {
-    const bar = this.bars[Math.floor(scrollY / (this.cfg.bl * 10))]
+    const bar = this.bars[Math.floor(this._uiCallback.scrollY / (this.cfg.bl * 10))]
     this.audioPlayer.play([bar], this.cfg.bl, this.effects, this.instruments)
   }
 

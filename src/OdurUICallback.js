@@ -11,6 +11,10 @@ export default class OdurUICallback {
     this.pressed = pressed || {}
   }
 
+  get scrollY() {
+    return this.canvasRenderer.scrollY
+  }
+
   audioStopping() {
     this.out2.innerText = 'Stopping...'
   }

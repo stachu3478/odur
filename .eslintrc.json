@@ -24,6 +24,8 @@
             "never"
         ],
         "no-var": "error",
-        "no-template-curly-in-string": "warn"
+        "no-template-curly-in-string": "warn",
+        "no-undef": "error",
+        "no-undefined": "error"
     }
 }
