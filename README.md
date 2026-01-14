@@ -32,4 +32,4 @@ My first try in Web DAW
 
 - Run `npm run build`
 - `dist` directory will contain the bundled frontend
-- Note that the frontend will be build in production mode as defined in webpack arguments
+- Note that the frontend will be built in production mode as defined in webpack arguments
